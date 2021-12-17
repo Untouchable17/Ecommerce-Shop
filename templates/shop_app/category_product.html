@@ -1,0 +1,152 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'css/cart-categories.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+
+    <title>{{ category.title }}</title>
+</head>
+
+<body>
+
+    {% include "includes/navbar.html" %}
+
+    <div class="container">
+        <div class="container my-sm-5 border p-0 bg-sec-light">
+            <div id="content">
+                <div class="bg-light p-2 px-md-4 px-3 shadow-sm">
+                    <div class="d-flex align-items-center">
+                        <div class="user-select-none">Home</div>
+                        <div class="fas fa-angle-right px-2"></div>
+                        <div id="navigator" class="text-primary"></div>
+                    </div>
+                </div>
+                <div class="d-sm-flex align-items-sm-center py-sm-3 px-md-3 location" style="justify-content:space-between;">
+                    <form action="{% url 'shop:product_filter' %}" method="get" style="display:flex;">
+                        <input type="text" name="search" required placeholder="Location" class="mx-sm-2 mx-3 my-sm-0 my-2 form-control">
+                        <button type="submit">
+                            Find
+                        </button>
+                    </form>
+                    <div class="gagag" style="">
+                         {%if page_obj.has_previous %}
+                            <a href="?page={{page_obj.previous_page_number}}"><</a>
+                        {% endif %}
+                        <span>{{page_obj.number}}</span>
+
+                        {%if page_obj.has_next %}
+                            <a href="?page={{page_obj.next_page_number}}">></a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="d-sm-flex">
+                    <div class="me-sm-2">
+                        <div id="filter" class="p-2 bg-light ms-md-4 ms-sm-2 border">
+                            <div class="border-bottom h5 text-uppercase">Filter By</div>
+                            <div class="box border-bottom">
+                                <div class="box-label text-uppercase d-flex align-items-center" style="font-weight:500;">Категории <button class="btn ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#inner-box" aria-expanded="false" aria-controls="inner-box"> <span class="fas fa-plus"></span> </button> </div>
+                                <div id="inner-box" class="collapse show">
+
+                                    {% for category in categories %}
+                                    <form action="{% url 'shop:category_product' category.slug %}" name="filter">
+                                        <div class="my-1">
+                                            <label class="tick">
+                                                <input type="submit">
+                                                <span class="span editContent">{{ category.title }}</span>
+                                            </label>
+                                        </div>
+                                    </form>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="box border-bottom">
+                                <div class="box-label text-uppercase d-flex align-items-center">Property Type <button class="btn ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#property" aria-expanded="false" aria-controls="property"> <span class="fas fa-plus"></span> </button> </div>
+                                <div id="property" class="collapse">
+                                    <div class="my-1"> <label class="tick">Hotels <input type="checkbox" checked="checked"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Apartments <input type="checkbox"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Guest houses <input type="checkbox"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Resorts <input type="checkbox"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Villas <input type="checkbox"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Lodges <input type="checkbox" checked> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Holiday Homes <input type="checkbox"> <span class="check"></span> </label> </div>
+                                </div>
+                            </div>
+                            <div class="box border-bottom">
+                                <div class="box-label text-uppercase d-flex align-items-center">Amenities <button class="btn ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#amenities" aria-expanded="false" aria-controls="amenities"> <span class="fas fa-plus"></span> </button> </div>
+                                <div id="amenities" class="collapse show">
+                                    <div class="my-1"> <label class="tick">Parking <input type="checkbox" checked="checked"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Pets Allowed <input type="checkbox"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Room Service <input type="checkbox"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Family Rooms <input type="checkbox"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Free Wifi <input type="checkbox"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Non-smoking Rooms <input type="checkbox" checked> <span class="check"></span> </label> </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <div class="box-label text-uppercase d-flex align-items-center">Room Facilities <button class="btn ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#room-facilities" aria-expanded="false" aria-controls="room-facilities"> <span class="fas fa-plus"></span> </button> </div>
+                                <div id="room-facilities" class="collapse">
+                                    <div class="my-1"> <label class="tick">Air Condentioning <input type="checkbox" checked="checked"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Desk <input type="checkbox"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Balcony <input type="checkbox"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Flat Screen TV <input type="checkbox"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Coffe/Tea Maker <input type="checkbox"> <span class="check"></span> </label> </div>
+                                    <div class="my-1"> <label class="tick">Washing Machine <input type="checkbox" checked> <span class="check"></span> </label> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-2 border" id="hotels">
+
+                       {% for product in page_obj.object_list %}
+
+                        <div class="hotel py-2 px-2 pb-4">
+                            <div class="row">
+                                <div class="col-lg-3"> <img src="{{ product.image.url }}" alt="" class="hotel-img"> </div>
+                                <div class="col-lg-9">
+                                    <div class="d-md-flex align-items-md-center">
+                                        <div class="name" style="font-weight:normal;">{{ product.title }}</div>
+                                        <div class="ms-auto code text-uppercase">{{ product.category.title }}</div>
+                                    </div>
+                                    <div class="rating"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="far fa-star"></span> <!-- Book now Enquiry -->
+                                    </div>
+                                    <div class="d-flex flex-column tags pt-1">
+                                        <div><span class="fas fa-comment-dollar"></span> {{ product.price }} $</div>
+                                    </div>
+                                    <div class="agkj mt-2">
+                                        <p>{{ product.description|truncatewords:35 }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-1">
+                                <div class="btn enquiry text-uppercase mx-2"><a href="{{ product.get_absolute_url }}">Посмотреть</a></div>
+                                <div class="btn btn-primary text-uppercase">Тест кнопка</div>
+                            </div>
+                        </div>
+                        <hr>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/2631cbe702.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+

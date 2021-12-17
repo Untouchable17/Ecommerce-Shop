@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %} Корзина товаров {% endblock %}
+
+{% block content %}
+
+    <section class="h-100" style="background-color: #eee;">
+  <div class="container h-100 py-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        {% if cart %}
+        <div class="col-10">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
+          <div>
+            <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!" class="text-body">price <i
+                  class="fas fa-angle-down mt-1"></i></a></p>
+          </div>
+        </div>
+
+      {% for item in cart %}
+        {% with product=item.product %}
+            <div class="card rounded-3 mb-4">
+              <div class="card-body p-4">
+                <div class="row d-flex justify-content-between align-items-center">
+                  <div class="col-md-2 col-lg-2 col-xl-2">
+                      <a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}" class="img-fluid rounded-3" alt="Cotton T-shirt"></a>
+                  </div>
+                  <div class="col-md-3 col-lg-3 col-xl-3">
+                    <p class="lead fw-normal mb-2">{{ product.title }}</p>
+                    <p><span class="text-muted">Раздел: </span><a href="{{ product.category.get_absolute_url }}" style="text-decoration:none;">{{ product.category.title }}</a></p>
+                  </div>
+                  <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                    <form action="{% url 'cart:cart_add' product.id %}" method="POST">
+                        {% csrf_token %}
+                        {{ item.update_quantity_form.quantity }}
+                        {{ item.update_quantity_form.update }}
+                        <input type="submit" value="Update">
+                    </form>
+                  </div>
+                  <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                    <h5 class="mb-0">${{ item.price }}</h5>
+                    <small>${{ item.total_price }} ({{ item.quantity }}) </small>
+                  </div>
+                  <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                    <a href="{% url 'cart:cart_remove' product.id%} ">Remove</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endwith %}
+        {% endfor %}
+        <div class="card mb-4">
+          <div class="card-body p-4 d-flex flex-row">
+            <div class="form-outline flex-fill">
+                <form class="form-control form-control-lg" id="id_coupon_code" action="{% url 'coupons:apply' %}" method="post">
+                    {{ coupon_apply_form }}
+                    {% csrf_token %}
+                    <button type="submit" class="btn  btn-sm" style="height:54px; margin-left: 20px;"><i class="fas fa-check" style="color: green;"></i> </button>
+                </form>
+              <label class="form-label" for="id_coupon_code">Promo code</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body" style="display:flex; justify-content:space-between;">
+              <div class="coupon_block">
+                  {% if cart.coupon %}
+
+
+                    <div class="coupon_block-action">
+                        <p>Купон: <strong>"{{ cart.coupon.coupon_code }}" /</strong> Скидка в размере <strong>{{ cart.coupon.coupon_discount }}%</strong></p>
+                    </div>
+                    <div class="coupon_block-startprice">
+                        <div class="input-group">
+                          <span class="input-group-text">Начальная цена</span>
+                          <span class="input-group-text">{{ cart.get_total_price|floatformat:"2" }} $</span>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text">С учетом скидки в {{ cart.coupon.coupon_discount }}% ( -${{ cart.get_discount|floatformat:"2" }} )</span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="coupon_block-startprice">
+                        <div class="input-group">
+                          <span class="input-group-text">Итоговая цена</span>
+                          <span class="input-group-text">{{ cart.get_total_price_after_discount|floatformat:"2" }} $</span>
+                        </div>
+                    </div>
+
+
+                  {% endif %}
+              </div>
+
+
+            <div class="block__final">
+                <div class="block_continue" style="padding-bottom:10px;">
+                   <button type="button" class="btn btn-success">
+                       <a href="{% url 'shop:product_list' %}" class="button" style="text-decoration:none;color:#fff;">Continue shopping</a>
+                   </button>
+                </div>
+                <div class="block__checkout">
+                    <button type="button" class="btn btn-success">
+                    <a href="{% url 'orders:order_create' %}" class="button" style="text-decoration:none;color:#fff;">Checkout</a>
+                    </button>
+                </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+        {% else %}
+        <div class="container-fluid mt-100">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <div class="card-body cart">
+                            <div class="col-sm-12 empty-cart-cls text-center"> <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3">
+                                <h3><strong>Your Cart is Empty</strong></h3>
+                                <h4>Add something to make me happy :)</h4> <a href="{% url 'shop:product_list' %}" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+  </div>
+</section>
+
+
+
+
+{% endblock %}
+

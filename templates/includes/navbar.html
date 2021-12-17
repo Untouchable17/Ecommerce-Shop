@@ -1,0 +1,127 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+<div class="super_container">
+    <!-- Header -->
+    <header class="header">
+        <!-- Top Bar -->
+        <div class="top_bar">
+            <div class="container">
+                <div class="row">
+                    <div class="col d-flex flex-row" style="justify-content:space-between;">
+                        <div class="top_bar_contact_item">
+                            <div class="top_bar_icon"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918577/phone.png" alt=""></div>+91 9823 132 111
+                        </div>
+                        <div class="top_bar_contact_item">
+                            <div class="top_bar_icon"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918597/mail.png" alt=""></div><a href="mailto:fastsales@gmail.com" style="text-decoration:none;">secdet@gmail.com</a>
+                        </div>
+                        <div class="top_bar_content ml-auto">
+                            <div class="top_bar_menu">
+                                <ul class="standard_dropdown top_bar_dropdown">
+                                    <li> <a href="#" style="text-decoration:none;">English<i class="fas fa-chevron-down"></i></a>
+                                        <ul>
+                                            <li><a href="#">Italian</a></li>
+                                            <li><a href="#">Spanish</a></li>
+                                            <li><a href="#">Japanese</a></li>
+                                        </ul>
+                                    </li>
+                                    <li> <a href="#" style="text-decoration:none;">$ US dollar<i class="fas fa-chevron-down"></i></a>
+                                        <ul>
+                                            <li><a href="#">EUR Euro</a></li>
+                                            <li><a href="#">GBP British Pound</a></li>
+                                            <li><a href="#">JPY Japanese Yen</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="top_bar_user">
+                                <div class="user_icon"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918647/user.svg" alt=""></div>
+                                {% if user.is_authenticated %}
+                                    <div><a href="{% url 'shop:profile_view' user.id %}" style="text-decoration:none;">{{ user.username }}</a></div>
+                                    <div><a href="{% url 'account_logout' %}" style="text-decoration:none;">Logout</a></div>
+                                {% else %}
+                                    <div><a href="#" style="text-decoration:none;">Register</a></div>
+                                    <div><a href="#" style="text-decoration:none;">Sign in</a></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Header Main -->
+        <div class="header_main">
+            <div class="container">
+                <div class="row">
+                    <!-- Logo -->
+                    <div class="col-lg-2 col-sm-3 col-3 order-1">
+                        <div class="logo_container">
+                            <div class="logo"><a href="{% url 'shop:product_list' %}" style="text-decoration:none;">Home</a></div>
+                        </div>
+                    </div> <!-- Search -->
+                    <div class="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right">
+                        <div class="header_search">
+                            <div class="header_search_content">
+                                <div class="header_search_form_container">
+                                    <form action="{% url 'shop:product_filter' %}" method="get" class="header_search_form clearfix" style="width:100%;">
+                                        <input name="search" type="search" required="required" class="header_search_input" placeholder="Search for products...">
+                                        <div class="custom_dropdown" style="display: none;">
+                                            <div class="custom_dropdown_list"> <span class="custom_dropdown_placeholder clc">All Categories</span> <i class="fas fa-chevron-down"></i>
+                                                <ul class="custom_list clc">
+                                                    <li><a class="clc" href="#">All Categories</a></li>
+                                                    <li><a class="clc" href="#">Computers</a></li>
+                                                    <li><a class="clc" href="#">Laptops</a></li>
+                                                    <li><a class="clc" href="#">Cameras</a></li>
+                                                    <li><a class="clc" href="#">Hardware</a></li>
+                                                    <li><a class="clc" href="#">Smartphones</a></li>
+                                                </ul>
+                                            </div>
+                                        </div> <button type="submit" class="header_search_button trans_300" value="Submit"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918770/search.png" alt=""></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- Wishlist -->
+                    <div class="col-lg-4 col-9 order-lg-3 order-2 text-lg-left text-right">
+                        <div class="wishlist_cart d-flex flex-row align-items-center justify-content-end">
+<!--                            <div class="wishlist d-flex flex-row align-items-center justify-content-end">-->
+<!--                                <div class="wishlist_icon"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918681/heart.png" alt=""></div>-->
+<!--                                <div class="wishlist_content">-->
+<!--                                    <div class="wishlist_text"><a href="#" style="text-decoration:none;">Wishlist</a></div>-->
+<!--                                    <div class="wishlist_count">10</div>-->
+<!--                                </div>-->
+<!--                            </div> &lt;!&ndash; Cart &ndash;&gt;-->
+                            <div class="cart">
+                                <div class="cart_container d-flex flex-row align-items-center justify-content-end">
+                                    {% with total_items=cart|length %}
+                                         {% if cart|length > 0 %}
+                                            <div class="cart_icon"> <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918704/cart.png" alt="">
+                                                {% if cart|length > 0 %}
+                                                    <div class="cart_count"><span>{{ total_items }}</span></div>
+                                                {% else %}
+                                                    <div class="cart_count"><span>0</span></div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="cart_content">
+                                                <div class="cart_text"><a href="{% url 'cart:cart_detail' %}" style="text-decoration:none;">Cart</a></div>
+                                                <div class="cart_price">$ {{ cart.get_total_price }}</div>
+                                            </div>
+
+                                        {% else %}
+                                            <div class="cart_icon"> <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918704/cart.png" alt="">
+                                                <div class="cart_count"><span>0</span></div>
+                                            </div>
+                                            <div class="cart_content">
+                                                <div class="cart_text"><a href="{% url 'cart:cart_detail' %}" style="text-decoration:none;">Cart</a></div>
+                                                <div class="cart_price">$ 0</div>
+                                            </div>
+                                        {% endif %}
+
+                                    {% endwith %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Main Navigation -->
+
+    </header>
+</div>

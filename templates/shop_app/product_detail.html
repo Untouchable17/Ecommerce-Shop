@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Product Detail {% endblock %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="super_container">
+    <header class="header" style="display: none;">
+        <div class="header_main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right">
+                        <div class="header_search">
+                            <div class="header_search_content">
+                                <div class="header_search_form_container">
+                                    <form action="#" class="header_search_form clearfix">
+                                        <div class="custom_dropdown">
+                                            <div class="custom_dropdown_list"> <span class="custom_dropdown_placeholder clc">All Categories</span> <i class="fas fa-chevron-down"></i>
+                                                <ul class="custom_list clc">
+                                                    <li><a class="clc" href="#">All Categories</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="single_product">
+        <div class="container-fluid" style=" background-color: #fff; padding: 11px;">
+            <div class="row">
+                <div class="col-lg-2 order-lg-1 order-2">
+                    <ul class="image_list">
+                        <li data-image="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565713229/single_4.jpg"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565713229/single_4.jpg" alt=""></li>
+                        <li data-image="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565713228/single_2.jpg"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565713228/single_2.jpg" alt=""></li>
+                        <li data-image="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565713228/single_3.jpg"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565713228/single_3.jpg" alt=""></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 order-lg-2 order-1">
+                    <div class="image_selected"><img src="{{ product.image.url }}" alt=""></div>
+                </div>
+                <div class="col-lg-6 order-3">
+                    <div class="product_description">
+                        <nav>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="#">Products</a></li>
+                                <li class="breadcrumb-item active">Accessories</li>
+                            </ol>
+                        </nav>
+                        <div class="product_name">{{ product.title }}</div>
+                        <div> <span class="product_price">$ {{ product.price }}</span> <strike class="product_discount"> <span style='color:black'>$ 2,000</span> </strike> </div>
+                        <div> <span class="product_saved">You Saved:</span> <span style='color:black'>₹ 2,000</span></div>
+                        <hr class="singleline">
+                        <div>
+                            <span class="product_info pb-3">{{ product.description }}</span>
+
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="br-dashed">
+                                        <div class="row">
+                                            <div class="col-md-3 col-xs-3"> <img src="https://img.icons8.com/color/48/000000/price-tag.png"> </div>
+                                            <div class="col-md-9 col-xs-9">
+                                                <div class="pr-info"> <span class="break-all">Get 5% instant discount + 10X rewards @ RENTOPC</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7"> </div>
+                            </div>
+                            <div class="row" style="margin-top: 15px;">
+                                    <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                        {% csrf_token %}
+                                        {{ cart_product_form }}
+                                        <input type="submit" class="btn btn-success btn-sm" value="Add to cart">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="singleline">
+                        <div class="order_info d-flex flex-row">
+                            <form action="#"></form>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6" style="margin-left: 13px;">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-underline">
+                <div class="col-md-6"> <span class=" deal-text">Specifications</span> </div>
+                <div class="col-md-6"> <a href="#" data-abc="true"> <span class="ml-auto view-all"></span> </a> </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="col-md-12">
+                        <tbody>
+                            <tr class="row mt-10">
+                                <td class="col-md-4"><span class="p_specification">Sales Package :</span> </td>
+                                <td class="col-md-8">
+                                    <ul>
+                                        <li>2 in 1 Laptop, Power Adaptor, Active Stylus Pen, User Guide, Warranty Documents</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="row mt-10">
+                                <td class="col-md-4"><span class="p_specification">Model Number :</span> </td>
+                                <td class="col-md-8">
+                                    <ul>
+                                        <li> 14-dh0107TU </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="row mt-10">
+                                <td class="col-md-4"><span class="p_specification">Part Number :</span> </td>
+                                <td class="col-md-8">
+                                    <ul>
+                                        <li>7AL87PA</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="row mt-10">
+                                <td class="col-md-4"><span class="p_specification">Color :</span> </td>
+                                <td class="col-md-8">
+                                    <ul>
+                                        <li>Black</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="row mt-10">
+                                <td class="col-md-4"><span class="p_specification">Suitable for :</span> </td>
+                                <td class="col-md-8">
+                                    <ul>
+                                        <li>Processing & Multitasking</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="row mt-10">
+                                <td class="col-md-4"><span class="p_specification">Processor Brand :</span> </td>
+                                <td class="col-md-8">
+                                    <ul>
+                                        <li>Intel</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+           <div class="row row-underline">
+                <div class="col-md-6"> <span class=" deal-text">Комментарии</span> </div>
+                <div class="col-md-6"> <a href="#" data-abc="true"> <span class="ml-auto view-all"></span> </a> </div>
+           </div>
+
+           <div class="row">
+               <div class="col-md-5">
+                {% if comments %}
+                   {% for comment in comments %}
+                        <div class="card">
+                      <div class="card-body">
+                        <div class="align-items-center" style="display:flex; justify-content:space-between;">
+                              <div style="display:flex;">
+                                   <img
+                                        class="rounded-circle shadow-1-strong me-3"
+                                        src="{{ comment.author.profile.picture.url }}"
+                                        alt="avatar"
+                                        width="60"
+                                        height="60"
+                                      />
+                                  <div class="author__block" >
+                                      <h6 class="fw-bold text-primary mb-1">{{ comment.author.username }}</h6>
+                                    <p class="text-muted small mb-0">
+                                      Date: {{ comment.created_at }}
+                                    </p>
+                                  </div>
+                              </div>
+
+                              <div class="star__block" style="display:flex;">
+                                  <p>
+                                      {% if comment.star_count == '5' %}
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                      {% elif comment.star_count == '4' %}
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="far fa-star"></i>
+                                      {% elif comment.star_count == '3' %}
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="far fa-star"></i>
+                                          <i class="far fa-star"></i>
+                                      {% elif comment.star_count == '2' %}
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="far fa-star"></i>
+                                          <i class="far fa-star"></i>
+                                          <i class="far fa-star"></i>
+                                      {% elif comment.star_count == '1' %}
+                                          <i class="fas fa-star"></i>
+                                          <i class="far fa-star"></i>
+                                          <i class="far fa-star"></i>
+                                          <i class="far fa-star"></i>
+                                          <i class="far fa-star"></i>
+                                      {% else %}
+                                         <small>Нет оценки</small>
+                                      {% endif %}
+                                  </p>
+                                  {% if request.user == comment.author %}
+                                    <form action="{% url 'shop:comment_delete' product.slug comment.pk %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" style="border:none;margin-left:15px;"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                    {% endif %}
+                              </div>
+                        </div>
+
+                        <p class="mt-3 mb-4 pb-2">{{ comment.comment }}</p>
+
+                      <div class="block__useful" style="display:flex;justify-content:space-between;">
+                            <div class="small d-flex justify-content-start">
+                              <a href="#!" class="d-flex align-items-center me-3" style="text-decoration:none;">
+                                <i class="fas fa-share me-2"></i>
+                                <p class="mb-0">Share</p>
+                              </a>
+
+                              <a href="#!" class="d-flex align-items-center me-3" style="text-decoration:none;">
+                                <i class="far fa-thumbs-up me-2"></i>
+                                <p class="mb-0">Like</p>
+                              </a>
+                            </div>
+                          <div class="block_likes" style="display:flex;">
+                              <form action="{% url 'shop:comment_like' product.pk comment.pk %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <button type="submit" style="border:none; margin-right:15px;"><i class="fas fa-thumbs-up" style="color: green;margin-right:5px;"></i><span>{{ comment.likes.all.count }}</span></button>
+                              </form>
+                              <form action="{% url 'shop:comment_dislike' product.pk comment.pk  %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <button type="submit" style="border:none;"><i class="fas fa-thumbs-down" style="color: red;margin-right:5px;"></i><span>{{ comment.dislikes.all.count }}</span></button>
+                              </form>
+                          </div>
+                      </div>
+                      </div>
+               </div>
+               {% endfor %}
+            {% else %}
+               <h3>Комментариев нет</h3>
+            {% endif %}
+               </div>
+
+               <div class="col-md-5">
+                   {% if user.is_authenticated %}
+                    <form action="{% url 'shop:add_comment' product.id %}" method="post">
+                        {% csrf_token %}
+                        {{ comment_product_form }}
+                        <input class="btn btn-success" type="submit" value="send" style="margin-top:15px;">
+                    </form>
+                    {% else %}
+                        <h2>Register/Login to your account </h2>
+                    {% endif %}
+               </div>
+           </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

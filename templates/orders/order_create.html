@@ -1,0 +1,165 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'css/order-create.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+
+    <title>Checkout</title>
+</head>
+<body>
+
+    {% include "includes/navbar.html" %}
+
+    <div class="container">
+
+        <nav class="bg-white">
+        <div class="d-flex align-items-center">
+            <div class="logo"> <a href="#" class="text-uppercase">shop</a> </div>
+            <div class="ml-auto"> <a href="#" class="text-uppercase">Back to shopping</a> </div>
+        </div>
+    </nav>
+
+        <div class="row">
+            {% if cart|length > 0 %}
+                <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-0 offset-md-2 offset-sm-1">
+                    <div class="mobile h5">Billing Address</div>
+                        <div id="details" class="bg-white rounded pb-5">
+                            <form action="." method="post" class="order-form" style="border:none;">
+                                {% csrf_token %}
+
+                                {{ form.as_p }}
+                                <div class="col-md-6 pt-md-0 pt-3">
+                                    <div class="btn text-white ml-auto">
+                                        <span class="fas fa-lock"><input type="submit" value="Place order" style="background:none;border:none;color:#fff;margin-left:10px;"></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <input type="checkbox" checked> <label>Shipping address is same as billing</label>
+                    </div>
+                    <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-0 offset-md-2 offset-sm-1 pt-lg-0 pt-3">
+
+                        <div id="cart" class="bg-white rounded">
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="h6">Cart Summary</div>
+                                <div class="h6"> <a href="{% url 'cart:cart_detail' %}">Edit</a> </div>
+                            </div>
+
+                            {% for item in cart %}
+                                <div class="d-flex jusitfy-content-between align-items-center pt-3 pb-2 border-bottom">
+                                    <div class="item pr-2"> <img src="{{ item.product.image.url }}" alt="" width="80" height="80"></div>
+                                    <div class="d-flex flex-column px-3"> <b class="h5">{{ item.product.title }}</b> <a href="#" class="h5 text-primary" style="text-decoration:none;">Кол-во: {{ item.quantity }}</a> </div>
+                                    <div class="ml-auto"> <b class="h5">{{ item.total_price }}</b> </div>
+                                </div>
+                            {% endfor %}
+
+                            <div class="d-flex align-items-center mt-2">
+                                {% if cart.coupon %}
+                                    <div class="display-5" style="font-size:18px;">Subtotal: <strong>{{ cart.coupon.coupon_code }} ({{  cart.coupon.coupon_discount }}% off)</strong></div><hr>
+                                {% endif %}
+                            </div>
+
+                            <div class="d-flex align-items-center py-2 border-bottom">
+                                <div class="display-5" style="font-size:17px;">Start Price</div>
+                                <div class="ml-auto font-weight-bold text-primary" style="font-size:17px; margin-left:15px;">${{ cart.get_total_price|floatformat:"2" }}</div>
+                            </div>
+
+                            <div class="d-flex align-items-center py-2">
+                                <div class="display-5" style="font-size:17px;">Total Price:</div>
+                                <div class="ml-auto d-flex">
+                                    <div class="text-primary text-uppercase px-3" style="font-size:17px;">{{ cart.get_total_price_after_discount|floatformat:"2" }}</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <p class="text-muted">Need help with an order?</p>
+                        <p class="text-muted"><a href="#" class="text-danger">Hotline:</a>+314440160 (International)</p>
+                        <div class="h4 pt-3"> <span class="fas fa-shield-alt text-primary pr-2"></span> Security of your shopping</div>
+
+                        <div id="summary" class="bg-white rounded py-2 my-4">
+                            <div class="table-responsive">
+                                <table class="table table-borderless w-75">
+                                    <tbody>
+                                        {% for item in cart %}
+                                            <tr class="text-muted">
+                                                <td>{{ item.product.title }}</td>
+                                                <td>:</td>
+                                                <td>${{ item.price }}</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="border-top py-2 d-flex align-items-center ml-2 font-weight-bold">
+                                <div>Total</div>
+                                <div class="ml-auto text-primary">USD</div>
+                                <div class="px-2">$92.98</div>
+                            </div>
+                        </div>
+
+                        <div class="row pt-lg-3 pt-2 buttons mb-sm-0 mb-2">
+                            <div class="col-md-6">
+                            <div class="btn text-uppercase"><a href="#" style="text-decoration:none; color: #000;">back to shopping</a></div>
+                        </div>
+                    </div>
+
+                    <div class="text-muted pt-3" id="mobile"> <span class="fas fa-lock"></span> Your information is save </div>
+                </div>
+            {% else %}
+                  <div class="mt-100">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+
+                                        <div class="card-body cart">
+                                            <div class="col-sm-12 empty-cart-cls text-center"> <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3">
+                                                <h3><strong>Your Cart is Empty</strong></h3>
+                                                <h4>Add something to make me happy :)</h4> <a href="{% url 'shop:product_list' %}" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            {% endif %}
+        </div>
+
+        <div class="text-muted mb-5 mt-2"> <span class="fas fa-lock"></span> Your information is save </div>
+
+    </div>
+
+    {% include 'includes/footer.html' %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/2631cbe702.js" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container py-5">
+<div class="row">
+  <div class="col">
+    <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">User</a></li>
+        <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card mb-4">
+      <div class="card-body text-center">
+        <img src="{{ profile.picture.url }}" alt="avatar" class="rounded-circle" style="width: 150px; height:150px;object-fit:cover;">
+        <h5 class="my-3" style="font-size:25px;">{{ profile.user.username}}</h5>
+        {% if profile.quote %}
+            <p class="text-muted mb-1" style="font-size:16px;">{{ profile.quote }}</p>
+        {% else %}
+            <p class="text-muted mb-4" style="font-size:16px;">No description</p>
+        {% endif %}
+        <div class="d-flex justify-content-center mb-2 mt-3">
+            {% if profile.user == request.user %}
+                <a href="{% url 'shop:profile_edit' profile.user.id %}" type="button" class="btn btn-primary">Settings</a>
+                <a type="button" class="btn btn-outline-primary ms-2">My Messages</a>
+            {% else %}
+                <a href="#" type="button" class="btn btn-danger">Report</a>
+                <a type="button" class="btn btn-outline-primary ms-2">Write message</a>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-lg-8">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Name</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0">{{ user.username }}</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Email</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0">{{ user.email }}</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Joined</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0">{{ profile.joined_at }}</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Last Online</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0">{{ user.last_login }}</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Location</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0">{{ profile.location }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Комментарии</button>
+        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Заказы</button>
+      </div>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+          {% for comment in user_comments %}
+               <div class="card" style="max-width:800px;">
+                  <div class="card-body">
+                    <div class="align-items-center" style="display:flex; justify-content:space-between;">
+                          <div style="display:flex;">
+                               <img
+                                    class="rounded-circle shadow-1-strong me-3"
+                                    src="{{ comment.author.profile.picture.url }}"
+                                    alt="avatar"
+                                    width="60"
+                                    height="60"
+                                  />
+                              <div class="author__block" >
+                                <h6 class="fw-bold text-primary mb-1">{{ comment.author.username }}</h6>
+                                <p class="text-muted small mb-0">
+                                  Date: {{ comment.created_at }}
+                                </p>
+                              </div>
+                          </div>
+
+                          <div class="star__block" style="display:flex;">
+                              <p>
+                                  {% if comment.star_count == '5' %}
+                                      <i class="fas fa-star"></i>
+                                      <i class="fas fa-star"></i>
+                                      <i class="fas fa-star"></i>
+                                      <i class="fas fa-star"></i>
+                                      <i class="fas fa-star"></i>
+                                  {% elif comment.star_count == '4' %}
+                                      <i class="fas fa-star"></i>
+                                      <i class="fas fa-star"></i>
+                                      <i class="fas fa-star"></i>
+                                      <i class="fas fa-star"></i>
+                                      <i class="far fa-star"></i>
+                                  {% elif comment.star_count == '3' %}
+                                      <i class="fas fa-star"></i>
+                                      <i class="fas fa-star"></i>
+                                      <i class="fas fa-star"></i>
+                                      <i class="far fa-star"></i>
+                                      <i class="far fa-star"></i>
+                                  {% elif comment.star_count == '2' %}
+                                      <i class="fas fa-star"></i>
+                                      <i class="fas fa-star"></i>
+                                      <i class="far fa-star"></i>
+                                      <i class="far fa-star"></i>
+                                      <i class="far fa-star"></i>
+                                  {% elif comment.star_count == '1' %}
+                                      <i class="fas fa-star"></i>
+                                      <i class="far fa-star"></i>
+                                      <i class="far fa-star"></i>
+                                      <i class="far fa-star"></i>
+                                      <i class="far fa-star"></i>
+                                  {% else %}
+                                     <small>Нет оценки</small>
+                                  {% endif %}
+                              </p>
+
+                          </div>
+                    </div>
+
+                    <p class="mt-3 mb-4 pb-2">{{ comment.comment }}</p>
+
+                    <div class="block__useful" style="display:flex;justify-content:space-between;">
+                          <div class="small d-flex justify-content-start">
+                            <a href="#!" class="d-flex align-items-center me-3" style="text-decoration:none;">
+                              <i class="fas fa-share me-2"></i>
+                              <p class="mb-0">Share</p>
+                            </a>
+
+                            <a href="#!" class="d-flex align-items-center me-3" style="text-decoration:none;">
+                              <i class="far fa-thumbs-up me-2"></i>
+                              <p class="mb-0">Report</p>
+                            </a>
+                          </div>
+                        <div class="block_likes" style="display:flex;">
+                              <button type="submit" style="border:none; margin-right:15px;"><i class="fas fa-thumbs-up" style="color: green;margin-right:5px;"></i><span>{{ comment.likes.all.count }}</span></button>
+                              <button type="submit" style="border:none;"><i class="fas fa-thumbs-down" style="color: red;margin-right:5px;"></i><span>{{ comment.dislikes.all.count }}</span></button>
+                        </div>
+                    </div></div>
+                  </div>
+          {% endfor %}
+      </div>
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+          {% if profile.user == request.user %}
+              {% if order_details %}
+                    <div class="card">
+                        <div class="card__block">
+                          {% for order_detail in order_details %}
+                            <table class="table">
+                                <thead>
+                                    <tr style="background-color: #fff; color: #111;">
+                                      <th scope="col" style="padding: 16px 12px; ">№ ЗАКАЗА</th>
+                                      <th scope="col" style="padding: 16px 12px; ">ДАТА ЗАКАЗА</th>
+                                      <th scope="col" style="padding: 16px 12px; ">ЦЕНА</th>
+                                      <th scope="col" style="padding: 16px 12px; ">СТАТУС</th>
+                                      <th scope="col" style="padding: 16px 12px; ">ДЕЙСТВИЯ</th>
+                                    </tr>
+                                  </thead>
+                                <tbody>
+                                    <tr style="background-color: #fff; color: #111;">
+                                      <th scope="row" style="padding: 16px 12px;">{{ order_detail.id }}</th>
+                                      <td style="padding: 16px 12px;">{{ order_detail.created_at }}</td>
+                                      <td style="padding: 16px 12px;"><b>{{ order_detail.get_total_cost|floatformat:"2" }} $</b></td>
+                                      <td style="padding: 16px 12px;">
+                                          {% if order_detail.status == 'new' %}
+                                            <p style="font-size:16px;">Ожидает обработки</p>
+                                          {% elif order_detail.status == 'in_progress' %}
+                                            <p style="color: orange; font-size:16px;">Заказ обработан</p>
+                                          {% elif order_detail.status == 'is_ready' %}
+                                            <p style="color: green; font-size:16px;">Заказ готов</p>
+                                          {% elif order_detail.status == 'completed' %}
+                                            <p style="color: green; font-size:16px;">Заказ отправлен(получен)</p>
+                                          {% endif %}
+                                      </td>
+                                      <td style="padding: 16px 12px;">
+
+                                        <!-- Button to Open the Modal -->
+                                        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#myModal">
+                                          >> Детали заказа
+                                        </button>
+
+                                        <!-- The Modal -->
+                                        <div class="modal" id="myModal">
+                                          <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                              <!-- Modal Header -->
+                                              <div class="modal-header">
+                                                <h4 class="modal-title">Детали заказа</h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                              </div>
+
+                                              <!-- Modal body -->
+                                              <div class="modal-body">
+                                                <h4 style="text-align:center; border-style:dotted;padding:12px 0px;">Заказ № {{ order_detail.id }}</h4>
+                                                <div class="product_status_money" style="display:flex; justify-content:space-between;">
+                                                  <p style="color: green;">Заказ оплачен <i class="fas fa-check" style="color: green;"></i></p>
+                                                    <p>>> <strong>{{ order_detail.get_total_cost|floatformat:"2" }} $</strong></p>
+                                                </div>
+                                                <p>Покупатель: {{ order_detail.first_name }} {{ order_detail.last_name }}</p>
+                                                <p>Номер: {{ order_detail.phone }}</p>
+                                                  <p>Почта: {{ order_detail.email }}</p>
+                                                  <p>Адрес: {{ order_detail.address }}</p>
+                                                  <p style="border-bottom-style:dotted;"></p>
+                                                  <div class="products__block">
+                                                      <p style="font-size:16px;">Товары в заказе:</p>
+                                                      {% for order_product in order_products %}
+                                                        <div class="show__products" style="display:flex; margin:12px 0px;">
+                                                            <div class="product-img">
+                                                                <img src="{{ order_product.product.image.url }}" alt="" style="height:75px; width:100px;">
+                                                            </div>
+                                                            <div class="product-desc" style="margin-left:18px;">
+                                                                <p style="margin:0;">{{ order_product.product.title }}</p>
+                                                                <p style="margin:0;">Цена: {{ order_product.product.price }}</p>
+                                                                <p style="margin:0;">Наличие:
+                                                                    {% if order_product.product.available %}
+                                                                        <i class="fas fa-check" style="color: green;"></i>
+                                                                    {% else %}
+                                                                        <i class="fas fa-times" style="color: red;"></i>
+                                                                    {% endif %}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                      {% endfor %}
+                                                  </div>
+                                                  <div class="product_chose" style="display: flex; border-top-style:dotted; padding: 10px 0px;">
+                                                      <p>
+                                                        {% if order_detail.buying_type == 'self' %}
+                                                            Самовывоз /
+                                                        {% else %}
+                                                            Доставка /
+                                                        {% endif %}
+                                                      </p>
+                                                      {% if order_detail.coupon %}
+                                                        <p> Купон: {{ order_detail.coupon.coupon_code }} / -{{ order_detail.coupon.coupon_discount }}%</p>
+                                                      {% else %}
+                                                        <p> Купон: не применялся</p>
+                                                      {% endif %}
+                                                  </div>
+
+
+                                                  <div class="get_check">
+                                                      <small style="font-size: 14px;">Распечатать чек</small><br>
+                                                      <div class="get_check_files" style="display: flex;">
+                                                          <button class="btn btn-light" style="margin:0; padding-right:20px;">PDF <i class="far fa-file-alt"></i></button>
+                                                          <button class="btn btn-light"  style="margin:0;">CSV <i class="fas fa-file-csv"></i></button>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <!-- Modal footer -->
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                              </div>
+
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                      </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        {% endfor %}
+                        </div>
+                    </div>
+              {% else %}
+                <h2 style="text-align:center;color:grey;" class="mt-5">У вас нет никаких заказов</h2>
+          <p style="text-align:center;"><a href="{% url 'shop:product_list' %}" style="text-decoration:none;color:green; font-size:18px;" class="mt-4"> >> Перейти в магазин</a></p>
+              {% endif %}
+          {% else %}
+                <h2 style="text-align:center;color:red;" class="mt-5">Недостаточно прав</h2>
+          {% endif %}
+      </div>
+      <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+          3
+      </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {% if category %} {{ category.title }} {% else %} Shop Page {% endif %} {% endblock %}
+
+
+{% block content %}
+
+{% include 'includes/banner.html' %}
+
+
+<div class="container">
+    <div class="row mt-5">
+
+      <div class="col-lg-4" style="text-align:center;">
+          <img src="https://s3-media3.fl.yelpcdn.com/bphoto/qAWlAzwQf_zvCwLOTGGZPQ/o.jpg" alt="" width="140" height="140" style="border-radius:100%; object-fit:cover;">
+
+        <h2>Clother</h2>
+        <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
+        <p><a class="btn btn-secondary" href="category/programmirovanie/">View details »</a></p>
+      </div>
+
+      <div class="col-lg-4" style="text-align:center;">
+          <img src="https://escribirte.com.ar/wp-content/uploads/2019/04/computer-electronics.jpg" alt="" width="140" height="140" style="border-radius:100%; object-fit:cover;">
+        <h2>Electronic</h2>
+        <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second column.</p>
+        <p><a class="btn btn-secondary" href="category/programmirovanie/">View details »</a></p>
+      </div>
+
+      <div class="col-lg-4" style="text-align:center;">
+          <img src="https://i.pinimg.com/originals/cd/43/a7/cd43a79997058e05ef4e01e071dde72e.jpg" alt="" width="140" height="140" style="border-radius:100%; object-fit:cover;">
+
+        <h2>Weapons</h2>
+        <p>And lastly this, the third column of representative placeholder content.</p>
+        <p><a class="btn btn-secondary" href="category/oruzhiya/">View details »</a></p>
+      </div><!-- /.col-lg-4 -->
+    </div>
+
+</div>
+
+    <header class="py-5 mt-5 mb-5" style="height:350px;background-image:url('https://rhemadurban.co.za/wp-content/uploads/2018/07/1200X400-BANNER-ELEVEN_V3.jpg');background-size:cover;background-repeat:no-repeat;background-position:center;">
+              <div class="container px-4 px-lg-5 my-5">
+              </div>
+    </header>
+
+    <div class="container">
+
+        <h1 class="m-5" style="text-align:center;margin:20px 0px;color: #6c757d;">Новые продукты</h1>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-5">
+          {% for product in products %}
+            <div class="col">
+              <div class="card shadow-sm">
+                <img src="{{ product.image.url }}" alt="" width="350px" height="350px" style="object-fit:cover;">
+                <div class="card-body">
+                  <p class="card-text"> content is a little bit longer.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{ product.get_absolute_url }}" style="text-decoration:none;color:#000;">View</a></button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Add</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
