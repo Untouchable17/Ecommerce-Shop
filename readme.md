@@ -23,10 +23,10 @@
 
 #### Запуск на локальном сервере
 
->> Запустите сайт<pre><code>python manage.py runserver</code></pre><br></li>
+> Запустите сайт<pre><code>python manage.py runserver</code></pre><br></li>
 
 
 #### Запуск на продакшн сервере
 
->> Запустите файл install.sh и заполните все поля
+> Запустите файл install.sh и заполните все поля
 
