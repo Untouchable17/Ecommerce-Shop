@@ -3,12 +3,12 @@
 
 #### Инструменты разработки
 
-<ul>
-    <li>Django</li>
-    <li>DjangoRestFramework</li>
-    <li>NGINX + Gunircon</li>
-    <li>Celery</li>
-</ul>
+
+<span>`Django`</span>
+<span>`DjangoRestFramework`</span>
+<span>`Celery`</span>
+<span>`NGINX`</span>
+<span>`Gunircon`</span>
 
 #### Установка:
 
