@@ -6,6 +6,7 @@
 <ul>
     <li>Django</li>
     <li>DjangoRestFramework</li>
+    <li>NGINX + Gunircon</li>
     <li>Celery</li>
 </ul>
 
